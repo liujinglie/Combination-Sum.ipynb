@@ -1,0 +1,9 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        map = {}
+        
+        for i in range(len(nums)):
+            map[nums[i]] = map.get(nums[i], 0)+1
+        for j in range(len(nums)):
+            if map.get(nums[j]) == 1:
+                return nums[j]
