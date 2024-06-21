@@ -1,0 +1,42 @@
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+
+        ## base case
+        if denominator == 0:
+            return
+        if numerator == 0:
+            return "0"
+        
+        ## initialization
+        out = ""
+        seen = {}
+
+        if (numerator < 0 and denominator) > 0 or (numerator > 0 and denominator < 0):
+            out += "-"
+
+        numerator = abs(numerator)
+        denominator = abs(denominator)
+
+        # case when numerator is directly divisible by denominator
+
+        quo = numerator // denominator
+        rem = numerator % denominator
+        out += str(quo)
+        if rem == 0:
+            return out
+
+        # case for decimal point
+        out += "."
+        while rem != 0:
+            if rem in seen:
+                loc = seen[rem]
+                out = out[:loc] +"("+out[loc:]+")"
+                return out
+            else:
+                seen[rem] = len(out)
+                rem *= 10
+                quo = rem // denominator
+                rem = rem % denominator
+                out += str(quo)
+
+        return out
