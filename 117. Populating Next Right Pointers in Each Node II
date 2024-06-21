@@ -1,0 +1,39 @@
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        
+        # Queue, initially with the root node
+        queue = deque()
+        if root: queue.append(root)
+        
+        # While the queue is not empty
+        while queue:
+            
+            # Count of nodes in the current level
+            nodesInCurrentLevel = len(queue)
+            
+            # Previous node in current level
+            prev = None
+            
+            # Iterate over all the nodes in the current level
+            while nodesInCurrentLevel > 0:
+                
+                # Pop the node in front of the queue
+                node = queue.popleft()
+                
+                # Update the next pointer of the previous node in this level, if it exists
+                if prev: prev.next = node
+                
+                # Update the prev node
+                prev = node
+                
+                # If the node has a left child, push to the queue
+                if node.left: queue.append(node.left)
+                    
+                # If the node has a right child, push to the queue
+                if node.right: queue.append(node.right)
+                
+                # Update the count
+                nodesInCurrentLevel -= 1
+                
+        # Finally, return the tree
+        return root
