@@ -1,0 +1,23 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        # If target is smaller than the 1st value or greater than the last
+        if target < matrix[0][0] or target > matrix[-1][-1]:
+            return False
+        # Iterate through matrixes & check if target is within the bounds of the smallest & highest value of that matrix
+        for m in matrix:
+            left = 0
+            right = len(m) - 1
+            # Target within the bounds of matrix
+            if target <= m[right] and target >= m[left]:
+                # Start Binary Search of matrix
+                while left <= right:
+                    midindex = (left + right )//2
+                    midnum = m[midindex]
+                    if target == midnum:
+                        return True
+                    elif target > midnum:
+                        left = midindex+1
+                    else: #target< midnum:
+                        right = midindex-1
+
+        return False
