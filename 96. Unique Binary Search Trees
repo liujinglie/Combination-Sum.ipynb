@@ -1,0 +1,20 @@
+class Solution:
+    def numTrees(self, n: int) -> int:
+        dp = [-1] * (n + 1)
+        
+        def solve(ind):
+            if ind == 0 or ind == 1:
+                return 1
+            if dp[ind] != -1:
+                return dp[ind]
+            
+            c = 0
+            for i in range(1, ind + 1):
+                l = solve(i - 1)
+                r = solve(ind - i)
+                c += l * r
+            
+            dp[ind] = c
+            return dp[ind]
+        
+        return solve(n)
