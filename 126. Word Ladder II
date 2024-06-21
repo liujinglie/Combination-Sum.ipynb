@@ -1,0 +1,59 @@
+class Solution:
+    def retracepath(self,parents,target,start,temp,paths,current):
+        # print("\ncurent is ",current," and temp is ",temp)
+        t = temp[:]
+        if current == start:
+            # print("Now inside current = start")
+            paths.append(t)
+            return
+        for p in parents[current]:
+            t.insert(0,p)
+            self.retracepath(parents,target,start,t,paths,p)
+            t.pop(0)
+
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        if beginWord not in wordList:
+            wordList.append(beginWord)            
+        n = len(wordList)
+        m = len(endWord)
+        paths = []
+        adj = {word:[] for word in wordList}
+        for i in range(n):
+            for j in range(i+1,n):
+                w1 = wordList[i]
+                w2 = wordList[j]
+                count = 0
+                for k in range(m):
+                    if w1[k] == w2[k]:
+                        continue
+                    count+=1
+                if count == 1:
+                    adj[w1].append(w2)
+                    adj[w2].append(w1)
+        # print("Adj",adj)
+        q = [(beginWord,None)]
+        visited = {word:False for word in wordList}
+        visited[beginWord] = True
+        parents = {word:[] for word in wordList}
+        currlevel = 1
+        levels = {word:n for word in wordList}
+        levels[beginWord] = currlevel
+        while len(q)!=0:
+            size = len(q)
+            # print("nodes at level ",currlevel," are ",q)
+            for i in range(size):
+                node = q.pop(0)
+                if node[0] == endWord:
+                    # print("Parents ",parents)
+                    # print("")
+                    self.retracepath(parents,endWord,beginWord,[endWord],paths,endWord)
+                    return paths
+                for neigh in adj[node[0]]:
+                    if neigh != node[1] and levels[node[0]] < levels[neigh]:
+                        parents[neigh].append(node[0])
+                    if not visited[neigh]:
+                        levels[neigh] = currlevel+1
+                        q.append((neigh,node))
+                        visited[neigh] = True
+            currlevel += 1
+        return paths
