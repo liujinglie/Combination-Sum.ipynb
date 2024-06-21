@@ -1,0 +1,13 @@
+class Solution:
+    def isValid(self, s: str) -> bool:
+        yummy = []                        
+        lookforthese = {")": "(", "}": "{", "]": "["}  
+        for no in s:
+            if no in lookforthese:                      
+                if yummy and yummy[-1] == lookforthese[no]:
+                    yummy.pop()              
+                else:
+                    return False
+            else:
+                yummy.append(no)
+        return not yummy
