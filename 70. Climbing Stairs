@@ -1,0 +1,18 @@
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        # Base cases: If n is 1, 2, or 3, return n directly as there are no steps to climb or only one way to climb them.
+        if n <= 3:
+            return n
+        # Initialize variables to represent the number of ways to reach the first and second steps.
+        # We set n1 to 2 and n2 to 3 because these are the number of distinct ways to reach the first and second steps, respectively.
+        n1, n2 = 2, 3
+
+        # Iterate from the third step up to the nth step
+        for i in range(4, n + 1):
+            # Calculate the number of ways to reach the current step by adding the number of ways to reach the (i-1)th step and the (i-2)th step.
+            temp = n1 + n2
+            # Update n1 and n2 to represent the number of ways to reach the (i-1)th and ith steps, respectively.
+            n1 = n2
+            n2 = temp
+        # Return the number of distinct ways to reach the nth step.
+        return n2
