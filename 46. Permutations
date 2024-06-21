@@ -1,0 +1,32 @@
+class Solution:
+  def permute(self, nums: List[int]) -> List[List[int]]:
+    """
+    Finds all possible permutations of a list of distinct integers.
+
+    Args:
+        nums: A list of distinct integers.
+
+    Returns:
+        A list of lists, where each sublist represents a permutation.
+    """
+    permutations = []
+    
+    def dfs(current_perm, remaining):
+      """
+      Performs a Depth-First Search (DFS) to explore all permutations.
+
+      Args:
+          current_perm: A list representing the current permutation being built.
+          remaining: A list of remaining integers to be included in the permutation.
+      """
+      if not remaining:
+        permutations.append(current_perm.copy())  # Add complete permutation
+        return
+  
+      for num in remaining:
+        current_perm.append(num)
+        dfs(current_perm, [i for i in remaining if i != num])  # Recursive call with remaining elements
+        current_perm.pop()  # Backtrack and remove the added element
+
+    dfs([], nums)
+    return permutations
