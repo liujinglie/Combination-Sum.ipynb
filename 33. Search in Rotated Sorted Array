@@ -1,0 +1,41 @@
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        def pivot_bsearch():
+            f, l = 0, len(nums) - 1
+
+            if f == l:
+                return 0
+
+            while f <= l:
+                m = (f + l) // 2
+                if nums[m] > nums[m + 1]:
+                    return m + 1
+                if nums[m] < nums[m - 1]:
+                    return m
+                if nums[m] > nums[l]:
+                    f = m
+                if nums[m] < nums[l]:
+                    l = m
+        
+        def target_bsearch(seq):
+            f, l = 0, len(seq) - 1
+
+            while f <= l:
+                m = (f + l) // 2
+                if seq[m] == target:
+                    return m
+                if seq[m] < target:
+                    f = m + 1
+                else:
+                    l = m - 1
+            return -1
+
+        pivot_inx = pivot_bsearch()
+        
+        if (r := target_bsearch(nums[0:pivot_inx])) != -1:
+            return r
+        
+        if (r := target_bsearch(nums[pivot_inx:])) != -1:
+            return len(nums[0:pivot_inx]) + r
+
+        return -1
