@@ -1,0 +1,33 @@
+class Solution:
+    def insertionSortList(self, head: ListNode) -> ListNode:
+        # Initialize the sorted portion of the list to be the first node
+        sorted_head = ListNode(0)
+        sorted_head.next = head
+        sorted_tail = head
+        
+        # Start with the second node in the list, since the first node is already sorted
+        curr = head.next
+        
+        while curr:
+            # If the current node is greater than the tail of the sorted list, 
+            # it is already in the correct place, so just move on to the next node
+            if curr.val >= sorted_tail.val:
+                sorted_tail = curr
+                curr = curr.next
+            else:
+                # Remove the current node from the list
+                sorted_tail.next = curr.next
+                
+                # Find the correct position to insert the current node in the sorted list
+                insert_pos = sorted_head
+                while insert_pos.next.val < curr.val:
+                    insert_pos = insert_pos.next
+                
+                # Insert the current node into the sorted list
+                curr.next = insert_pos.next
+                insert_pos.next = curr
+                
+                # Move on to the next node in the unsorted portion of the list
+                curr = sorted_tail.next
+        
+        return sorted_head.next
