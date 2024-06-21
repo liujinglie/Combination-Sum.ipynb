@@ -1,0 +1,39 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def merge(self, root, left_tree, right_tree):
+        root.left = left_tree
+        root.right = right_tree
+        return root
+
+    def divideAndConquer(self, nums):
+        n = len(nums)
+        if n == 0:
+            return None
+        elif n == 1:
+            return TreeNode(nums[0])
+        mid = n//2
+        root = TreeNode(nums[mid])
+        left_tree = self.divideAndConquer(nums[:mid])
+        right_tree = self.divideAndConquer(nums[mid+1:])
+        return self.merge(root,left_tree,right_tree)
+
+    def linkedListToArray(self, head):
+        arr = []
+        while head is not None:
+            arr.append(head.val)
+            head = head.next
+        return arr
+
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        nums = self.linkedListToArray(head)
+        return self.divideAndConquer(nums)
