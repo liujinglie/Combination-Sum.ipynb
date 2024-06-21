@@ -1,0 +1,8 @@
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        insort(intervals, newInterval)
+        lis = []
+        for a,b in intervals:
+            if lis and a<=lis[-1][1]: lis[-1][1] = max(lis[-1][1], b)
+            else: lis.append([a,b])
+        return lis
