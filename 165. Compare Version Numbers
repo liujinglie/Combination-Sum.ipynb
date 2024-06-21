@@ -1,0 +1,3 @@
+class Solution:
+    def compareVersion(self, s: str, t: str) -> int:
+        return next((2*(p>q)-1 for p,q in zip_longest(*(map(int,w.split('.')) for w in (s,t)),fillvalue=0) if p!=q),0)
